@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect x='16' y='6' width='64' height='48' rx='8' fill='%234A2C20'/%3E%3Crect x='12' y='50' width='72' height='40' rx='10' fill='%231F9E7A'/%3E%3Crect x='10' y='44' width='76' height='14' rx='7' fill='%233DBB96'/%3E%3C/svg%3E">
+<title>ChocoStore | Rank ChocoSMP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF5F1; --surface:#FFFFFF; --surface2:#E0EDE6; --ink:#2A1810; --muted:#6B5A52;
+  --accent:#1F9E7A; --accent-ink:#FFFFFF; --choc:#4A2C20; --line:#C8DBD1; --err:#B3261E;
+  --gold:#B8801C;
+  color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1D110C; --surface:#2A1A13; --surface2:#37231A; --ink:#F4EDE8; --muted:#B9A69C;
+    --accent:#7FE0C3; --accent-ink:#13241E; --choc:#5A3524; --line:#4A3126; --err:#FF8A80; --gold:#E8B04A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1D110C; --surface:#2A1A13; --surface2:#37231A; --ink:#F4EDE8; --muted:#B9A69C;
+  --accent:#7FE0C3; --accent-ink:#13241E; --choc:#5A3524; --line:#4A3126; --err:#FF8A80; --gold:#E8B04A;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "DM Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","DM Sans",system-ui,sans-serif;line-height:1.1;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* hero */
+.hero{padding:64px 0 40px}
+.hero h1{font-size:clamp(2.6rem,8vw,5.2rem);font-weight:800;letter-spacing:-.03em;max-width:12ch}
+.brand{display:flex;align-items:center;gap:clamp(12px,2.5vw,24px)}
+.brand svg{width:clamp(56px,11vw,104px);height:auto;flex:none}
+.hero p{max-width:46ch;color:var(--muted);font-size:1.1rem;margin:18px 0 28px}
+.ip{display:inline-flex;align-items:stretch;border:2px solid var(--choc);border-radius:12px;overflow:hidden;background:var(--surface)}
+.ip code{padding:12px 16px;font:700 1rem/1.2 ui-monospace,Menlo,Consolas,monospace;display:flex;align-items:center}
+.ip button{border:0;background:var(--choc);color:#fff;padding:0 18px;font:700 .95rem "DM Sans",sans-serif;cursor:pointer;min-height:48px}
+.ip button:hover{filter:brightness(1.15)}
+
+/* ranks */
+.section{padding:40px 0}
+.section h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:8px}
+.sub{color:var(--muted);margin:0 0 28px;max-width:56ch}
+.ranks{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;margin-bottom:32px}.group{font-size:1.3rem;margin:0 0 12px}
+.rank{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:22px 18px;display:flex;flex-direction:column;gap:14px;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
+.rank:hover{border-color:var(--accent)}
+.rank[aria-pressed="true"]{border-color:var(--accent);background:var(--surface2);transform:translateY(-4px)}
+.rank.top{border-color:var(--gold)}
+.rank .tag{align-self:flex-start;font-weight:700;font-size:.8rem;padding:3px 10px;border-radius:99px;background:var(--choc);color:#fff}
+.rank h3{font-size:1.7rem;font-weight:800}
+.price{font:800 1.5rem "Bricolage Grotesque",sans-serif}
+.price small{font:500 .85rem "DM Sans",sans-serif;color:var(--muted)}
+.rank ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:.95rem}
+.rank li{padding-left:22px;position:relative}
+.rank li::before{content:"";position:absolute;left:2px;top:.5em;width:10px;height:6px;border-left:2.5px solid var(--accent);border-bottom:2.5px solid var(--accent);transform:rotate(-45deg)}
+
+/* checkout */
+.checkout{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;background:var(--surface);border:2px solid var(--choc);border-radius:20px;padding:28px}
+label{display:block;font-weight:700;margin-bottom:6px}
+input,select{width:100%;font:inherit;color:inherit;background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:12px 14px;min-height:48px}
+input:focus,select:focus{border-color:var(--accent)}
+.field{margin-bottom:18px}
+.hint{font-size:.88rem;color:var(--muted);margin:6px 0 0}
+.err{color:var(--err);font-size:.9rem;margin:6px 0 0;min-height:1.3em}
+.summary{background:var(--surface2);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.summary dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px}
+.summary dt{color:var(--muted)}
+.summary dd{margin:0;text-align:right;font-weight:700;overflow-wrap:anywhere}
+.total{border-top:2px dashed var(--line);padding-top:12px;margin-top:4px;display:flex;justify-content:space-between;align-items:baseline}
+.total strong{font:800 1.7rem "Bricolage Grotesque",sans-serif}
+.btn{border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font:700 1.05rem "DM Sans",sans-serif;padding:14px 20px;min-height:52px;cursor:pointer;text-decoration:none;text-align:center;display:block}
+.btn:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--choc)}
+.status{min-height:1.5em;font-weight:700;color:var(--accent);margin:0}
+.steps{margin:0;padding-left:20px;color:var(--muted);font-size:.92rem}
+footer{padding:32px 0 48px;color:var(--muted);font-size:.9rem}
+
+@media (max-width:900px){.checkout{grid-template-columns:1fr}}
+@media (max-width:520px){.ranks{grid-template-columns:1fr}.hero{padding-top:40px}.checkout{padding:20px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <div class="brand">
+<svg viewBox="0 0 96 96" aria-hidden="true">
+<rect x="16" y="6" width="64" height="48" rx="8" style="fill:var(--choc)"></rect>
+<rect x="20" y="10" width="26" height="17" rx="4" style="fill:color-mix(in srgb,var(--choc) 82%,#fff)"></rect>
+<rect x="50" y="10" width="26" height="17" rx="4" style="fill:color-mix(in srgb,var(--choc) 82%,#fff)"></rect>
+<rect x="20" y="30" width="26" height="17" rx="4" style="fill:color-mix(in srgb,var(--choc) 82%,#fff)"></rect>
+<rect x="50" y="30" width="26" height="17" rx="4" style="fill:color-mix(in srgb,var(--choc) 82%,#fff)"></rect>
+<rect x="12" y="50" width="72" height="40" rx="10" style="fill:var(--accent)"></rect>
+<rect x="10" y="44" width="76" height="14" rx="7" style="fill:color-mix(in srgb,var(--accent) 78%,#fff)"></rect>
+<path d="M48 65v17M39.5 73.5h17" style="stroke:var(--accent-ink);fill:none" stroke-width="5" stroke-linecap="round"></path>
+</svg>
+<h1>ChocoStore</h1>
+</div>
+  <p>Toko rank resmi ChocoSMP. Pilih rank, isi nama Minecraft kamu, lalu kirim pesanan ke admin. Rank aktif setelah pembayaran dikonfirmasi.</p>
+  <div class="ip">
+    <code id="ip">play.chocosmp.my.id:19142</code>
+    <button type="button" id="copyIp">Salin IP</button>
+  </div>
+</div></header>
+
+<main>
+<section class="section" id="ranks"><div class="wrap">
+  <h2>Pilih rank</h2>
+  <p class="sub">Sekali bayar, berlaku permanen. Klik salah satu rank untuk memilihnya.</p>
+  <div id="rankList"></div>
+</div></section>
+
+<section class="section" id="checkout"><div class="wrap">
+  <h2>Pesan rank</h2>
+  <p class="sub">Isi data di bawah, lalu salin pesanan dan kirim ke admin.</p>
+  <div class="checkout">
+    <div>
+      <div class="field">
+        <label for="ign">Nama Minecraft</label>
+        <input id="ign" autocomplete="off" spellcheck="false" placeholder="contoh: ChocoSteve" maxlength="17">
+        <p class="err" id="ignErr" role="alert"></p>
+        <p class="hint">Pemain Bedrock: awali dengan titik, contoh .ChocoSteve</p>
+      </div>
+      <div class="field">
+        <label for="pay">Metode pembayaran</label>
+        <select id="pay">
+          <option>QRIS</option>
+          <option>Transfer bank</option>
+          <option>DANA</option>
+          <option>GoPay</option>
+          <option>OVO</option>
+        </select>
+      </div>
+      <ol class="steps">
+        <li>Klik "Buka ticket di Discord". Pesananmu otomatis tersalin.</li>
+        <li>Di Discord, buat ticket lalu tempel pesananmu.</li>
+        <li>Bayar sesuai arahan admin, lalu kirim bukti.</li>
+      </ol>
+    </div>
+    <div class="summary" aria-live="polite">
+      <dl>
+        <dt>Rank</dt><dd id="sRank">Belum dipilih</dd>
+        <dt>Nama Minecraft</dt><dd id="sIgn">-</dd>
+        <dt>Pembayaran</dt><dd id="sPay">QRIS</dd>
+      </dl>
+      <div class="total"><span>Total</span><strong id="sTotal">Rp0</strong></div>
+      <button class="btn" type="button" id="copyOrder">Salin pesanan</button>
+      <a class="btn alt" id="contact" href="#" target="_blank" rel="noopener" hidden>Buka ticket di Discord</a>
+      <p class="status" id="status" role="status"></p>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">chocostore.id adalah toko rank ChocoSMP. ChocoSMP bukan produk resmi Mojang atau Microsoft. Semua rank bersifat kosmetik dan kenyamanan, tidak memberi keuntungan tidak adil.</div></footer>
+
+<script>
+// ===== Ubah bagian ini sesuai servermu =====
+const CONTACT_URL = "https://discord.gg/ea8yVWdZQ"; // link Discord untuk buka ticket
+// Harga dan perk di bawah ini hanya contoh, ganti sesuai rankmu. Tambah top:true untuk rank yang diberi bingkai emas.
+const RANKS = [
+  {group:"Choco", name:"Choco",   price:5000, perks:["Ender chest (/ec)","Home +2","Kit OP"]},
+  {group:"Choco", name:"Choco+",  price:10000, perks:["Semua perk Choco","/craft","/anvil","Home +4"]},
+  {group:"Choco", name:"Choco++", price:15000, perks:["Kit OP","Home +5","/ec, /craft, /anvil","/fly dan /flyspeed"]},
+  {group:"Choco", name:"Choco+++",price:20000, perks:["Kit OP","Home +6","/ec, /craft, /anvil","/fly dan /flyspeed","/hide dan /nick"]},
+  {group:"CEO",   name:"CEO",     price:40000,perks:["Semua perk Choco+++","Prefix CEO khusus"], top:true},
+  {group:"Guardian", name:"Guardian",   price:50000, perks:["Kit OP","Prefix Guardian di chat","/ec, /craft, /anvil","/fly dan /flyspeed","/hide dan /nick"]},
+  {group:"Guardian", name:"Guardian+",  price:70000, perks:["Semua perk Guardian","Home tambahan"]},
+  {group:"Guardian", name:"Guardian++", price:80000, perks:["Semua perk Guardian+","Akses area khusus"]},
+  {group:"Guardian", name:"Guardian+++",price:100000, perks:["Semua perk Guardian++","Prefix animasi"], top:true},
+  {group:"Spesial", name:"Donatur",  price:200000,  perks:["Kit OP","Prefix Donatur di chat","Namamu di daftar donatur","/ec, /craft, /anvil","/fly dan /flyspeed","/hide dan /nick"]},
+  {group:"Spesial", name:"King",     price:230000, perks:["Kit OP","Prefix King animasi","Akses area King","/ec, /craft, /anvil","/fly dan /flyspeed","/hide dan /nick"]},
+  {group:"Spesial", name:"Investor", price:300000, perks:["Semua perk King","Prefix Investor khusus"], top:true}
+];
+// ===========================================
+
+const rp = n => "Rp" + n.toLocaleString("id-ID");
+const $ = id => document.getElementById(id);
+let selected = null;
+
+const list = $("rankList");
+const grids = {};
+RANKS.forEach(r => {
+  if (!grids[r.group]) {
+    const h = document.createElement("h3"); h.className = "group"; h.textContent = r.group;
+    const g = document.createElement("div"); g.className = "ranks";
+    list.append(h, g); grids[r.group] = g;
+  }
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "rank" + (r.top ? " top" : ""); b.setAttribute("aria-pressed","false"); b.dataset.id = r.id;
+  b.innerHTML = '<h3>' + r.name + '</h3>' +
+    '<div class="price">' + rp(r.price) + ' <small>sekali bayar</small></div>' +
+    '<ul>' + r.perks.map(p => '<li>' + p + '</li>').join("") + '</ul>';
+  b.addEventListener("click", () => {
+    selected = r;
+    list.querySelectorAll(".rank").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    update();
+    $("checkout").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth"});
+  });
+  grids[r.group].appendChild(b);
+});
+
+const IGN_RE = /^\.?[A-Za-z0-9_ ]{3,16}$/;
+function ignValue(){ return $("ign").value.trim(); }
+function ignOk(){ return IGN_RE.test(ignValue()); }
+
+function orderText(){
+  return "Halo admin ChocoSMP, saya mau beli rank " + selected.name + " (" + rp(selected.price) +
+    ") untuk nama Minecraft: " + ignValue() + ". Metode pembayaran: " + $("pay").value + ".";
+}
+
+function update(){
+  $("sRank").textContent = selected ? selected.name : "Belum dipilih";
+  $("sIgn").textContent = ignValue() || "-";
+  $("sPay").textContent = $("pay").value;
+  $("sTotal").textContent = selected ? rp(selected.price) : "Rp0";
+  const ready = !!selected && ignOk();
+  $("copyOrder").disabled = !ready;
+  const c = $("contact");
+  if (CONTACT_URL) {
+    c.hidden = false;
+    c.href = ready ? CONTACT_URL : "#";
+    c.setAttribute("aria-disabled", String(!ready));
+    c.style.opacity = ready ? 1 : .5;
+    c.style.pointerEvents = ready ? "auto" : "none";
+  }
+}
+
+$("ign").addEventListener("input", () => {
+  const v = ignValue();
+  $("ignErr").textContent = (v && !IGN_RE.test(v)) ? "Nama harus 3–16 karakter: huruf, angka, atau garis bawah." : "";
+  update();
+});
+$("pay").addEventListener("change", update);
+
+async function copyText(t){
+  try { await navigator.clipboard.writeText(t); return true; }
+  catch (e) {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand("copy"); ta.remove(); return ok;
+    } catch (e2) { return false; }
+  }
+}
+
+$("copyOrder").addEventListener("click", async () => {
+  if (!selected || !ignOk()) return;
+  const ok = await copyText(orderText());
+  $("status").textContent = ok ? "Pesanan disalin. Kirim ke admin." : "Gagal menyalin. Salin teks ini manual: " + orderText();
+});
+
+$("contact").addEventListener("click", async () => {
+  if (!selected || !ignOk()) return;
+  const ok = await copyText(orderText());
+  $("status").textContent = ok ? "Pesanan tersalin. Buat ticket di Discord lalu tempel pesananmu." : "Salin pesanan manual: " + orderText();
+});
+
+$("copyIp").addEventListener("click", async () => {
+  const ok = await copyText($("ip").textContent);
+  const b = $("copyIp"); b.textContent = ok ? "Tersalin" : "Gagal";
+  setTimeout(() => b.textContent = "Salin IP", 1600);
+});
+
+update();
+</script>
+</body>
+</html>
